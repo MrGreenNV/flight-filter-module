@@ -1,8 +1,18 @@
 package com.gridnine.testing;
 
+import java.util.List;
+
 /**
- * @author mrGreenNV.
+ * The interface describes the functionality of the flight filter.
+ * @author mrGreenNV
  */
-public final class FlightFilter {
+public interface FlightFilter {
+
+    /**
+     * Starts filtering flights.
+     * @param flights the original list of flights.
+     * @return the filtered list of flights.
+     */
+    List<Flight> executeFilter(List<Flight> flights);
 
 }
