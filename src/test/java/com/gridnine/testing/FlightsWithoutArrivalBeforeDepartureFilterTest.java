@@ -10,13 +10,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test for FlightsWithoutDepartureBeforeNowFilter.
+ * Test for FlightsWithoutArrivalBeforeDepartureFilter.
  * @author mrGreenNV
  */
-class FlightsWithoutDepartureBeforeNowFilterTest {
+class FlightsWithoutArrivalBeforeDepartureFilterTest {
+
     private List<Flight> testFlights;
-    private Flight correctFlight;
-    private Flight incorrectFlight;
+    private Flight flightWithCorrectTestSegments;
+    private Flight flightWithIncorrectTestSegments;
 
     /**
      * Initialize items.
@@ -25,25 +26,25 @@ class FlightsWithoutDepartureBeforeNowFilterTest {
     public void setUp() {
         testFlights = new ArrayList<>(2);
 
-        correctFlight = createFlightWithCorrectSegments();
-        testFlights.add(correctFlight);
+        flightWithCorrectTestSegments = createFlightWithCorrectSegments();
+        flightWithIncorrectTestSegments = createFlightWithIncorrectSegments();
 
-        incorrectFlight = createFlightWithIncorrectSegments();
-        testFlights.add(incorrectFlight);
+        testFlights.add(flightWithCorrectTestSegments);
+        testFlights.add(flightWithIncorrectTestSegments);
     }
 
     /**
-     * Checks filtering with a FlightsWithoutDepartureBeforeNowFilter strategy.
+     * Checks filtering with a FlightsWithoutArrivalBeforeDepartureFilter strategy.
      */
     @Test
     public void testFilter() {
-        FilterStrategy filterStrategy = new FlightsWithoutDepartureBeforeNowFilter();
+        FilterStrategy filterStrategy = new FlightsWithoutArrivalBeforeDepartureFilter();
 
-        List<Flight> filteredFlight = filterStrategy.filter(testFlights);
+        List<Flight> filteredFlights = filterStrategy.filter(testFlights);
 
-        assertEquals(1, filteredFlight.size());
-        assertFalse(filteredFlight.contains(incorrectFlight));
-        assertTrue(filteredFlight.contains(correctFlight));
+        assertEquals(1, filteredFlights.size());
+        assertTrue(filteredFlights.contains(flightWithCorrectTestSegments));
+        assertFalse(filteredFlights.contains(flightWithIncorrectTestSegments));
     }
 
     /**
@@ -61,6 +62,6 @@ class FlightsWithoutDepartureBeforeNowFilterTest {
      */
     private Flight createFlightWithIncorrectSegments() {
         LocalDateTime time = LocalDateTime.now();
-        return new Flight(List.of(new Segment(time.minusHours(2), time.plusHours(2))));
+        return new Flight(List.of(new Segment(time, time.minusHours(2))));
     }
 }
