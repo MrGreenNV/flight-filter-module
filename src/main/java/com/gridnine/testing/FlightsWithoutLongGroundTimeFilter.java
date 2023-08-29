@@ -8,10 +8,23 @@ import java.util.stream.Collectors;
  * This class implements a filter strategy for excluding flights with long ground time.
  * @author mrGreenNV
  */
-public class FlightsWithoutLongGroundTime implements FilterStrategy {
+public class FlightsWithoutLongGroundTimeFilter implements FilterStrategy {
 
     /** Preset time spent on earth */
     private int groundTimeHours = 2;
+
+    /**
+     * Constructs a new FlightsWithoutLongGroundTime the specified long ground time.
+     * @param groundTimeHours The specified long ground time.
+     */
+    public FlightsWithoutLongGroundTimeFilter(int groundTimeHours) {
+        setGroundTimeHours(groundTimeHours);
+    }
+
+    /**
+     * Constructs a new empty FlightsWithoutLongGroundTime.
+     */
+    public FlightsWithoutLongGroundTimeFilter() {}
 
     /**
      * Set the maximum allowed time spent on earth.
