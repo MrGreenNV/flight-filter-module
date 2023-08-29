@@ -17,9 +17,10 @@ public class FlightsWithoutDepartureBeforeNowFilter implements FilterStrategy {
      */
     @Override
     public List<Flight> filter(List<Flight> flights) {
+        LocalDateTime now = LocalDateTime.now();
         return flights.stream()
                 .filter(flight -> flight.getSegments().stream()
-                        .allMatch(segment -> segment.getDepartureDate().isAfter(LocalDateTime.now())))
+                        .allMatch(segment -> segment.getDepartureDate().isAfter(now)))
                 .collect(Collectors.toList());
     }
 }
